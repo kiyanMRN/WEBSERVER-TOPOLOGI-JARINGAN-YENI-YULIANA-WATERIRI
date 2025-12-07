@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css">
+  <title>WEB SERVER GAMBAR TOPOLOGI JARINGAN YENI</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; background: #111; color: #fff; }
+    .slider {
+      position: relative;
+      max-width: 800px;
+      margin: 40px auto;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      background: #000;
+    }
+    .track {
+      display: flex;
+      transition: transform 0.4s ease;
+      will-change: transform;
+    }
+    .slide {
+      min-width: 100%;
+      user-select: none;
+      pointer-events: none;
+    }
+    .slide img {
+      display: block;
+      width: 100%;
+      height: 450px;
+      object-fit: cover;
+      pointer-events: none;
+    }
+    .controls {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+    }
+    .btn {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      backdrop-filter: blur(4px);
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+    .btn:hover { background: rgba(255,255,255,0.22); }
+    .btn:active { transform: scale(0.95); }
+    .dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+    }
+    .dot.active { background: #fff; }
+  </style>
+</head>
+<body>
+  <div class="slider" id="slider">
+    <div class="track" id="track">
+      <div class="slide"><img src="Gambar5.png" alt="Gambar 1" /></div>
+      <div class="slide"><img src="Gambar1.png" alt="Gambar 2" /></div>
+      <div class="slide"><img src="Gambar2.png" alt="Gambar 3" /></div>
+      <div class="slide"><img src="Gambar3.png" alt="Gambar 4" /></div>
+      <div class="slide"><img src="Gambar4.png" alt="Gambar 5" /></div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="prev" aria-label="Geser kiri">‹</button>
+      <button class="btn" id="next" aria-label="Geser kanan">›</button>
+    </div>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <script>
+    (function () {
+      const track = document.getElementById('track');
+      const slides = Array.from(track.children);
+      const prev = document.getElementById('prev');
+      const next = document.getElementById('next');
+      const dotsWrap = document.getElementById('dots');
+
+      let index = 0;
+      const total = slides.length;
+
+      // Buat indikator
+      const dots = slides.map((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        dotsWrap.appendChild(d);
+        return d;
+      });
+
+      function update() {
+        const offset = -index * 100;
+        track.style.transform = `translateX(${offset}%)`;
+        dots.forEach((d, i) => d.classList.toggle('active', i === index));
+      }
+
+      function goNext() {
+        index = (index + 1) % total;
+        update();
+      }
+
+      function goPrev() {
+        index = (index - 1 + total) % total;
+        update();
+      }
+
+      next.addEventListener('click', goNext);
+      prev.addEventListener('click', goPrev);
+
+      // Navigasi keyboard (← →)
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') goNext();
+        else if (e.key === 'ArrowLeft') goPrev();
+      });
+
+      // Swipe (untuk perangkat sentuh)
+      let startX = 0, isDown = false;
+      const slider = document.getElementById('slider');
+
+      slider.addEventListener('touchstart', (e) => {
+        isDown = true;
+        startX = e.touches[0].clientX;
+      });
+      slider.addEventListener('touchmove', (e) => {
+        if (!isDown) return;
+        const dx = e.touches[0].clientX - startX;
+        // geser manual kecil – opsional
+      });
+      slider.addEventListener('touchend', (e) => {
+        if (!isDown) return;
+        const endX = e.changedTouches[0].clientX;
+        const dx = endX - startX;
+        if (Math.abs(dx) > 50) {
+          if (dx < 0) goNext(); else goPrev();
+        }
+        isDown = false;
+      });
+
+      // Auto-advance opsional: aktifkan jika perlu
+      // setInterval(goNext, 5000);
+    })();
+  </script>
+</body>
+</html>
