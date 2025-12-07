@@ -1,0 +1,104 @@
+/* Reset dasar */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Container slider */
+.slider {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+  background: #000;
+}
+
+/* Track gambar */
+.track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  will-change: transform;
+}
+
+/* Slide */
+.slide {
+  min-width: 100%;
+}
+.slide img {
+  display: block;
+  width: 100%;
+  height: auto;        /* biarkan tinggi menyesuaikan */
+  object-fit: contain; /* gambar ditampilkan penuh tanpa terpotong */
+  background: #000;    /* beri latar belakang hitam agar sisa ruang rapi */
+}
+
+.slide img:hover {
+  transform: scale(1.05);
+}
+
+/* Tombol navigasi */
+.controls {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.btn {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  backdrop-filter: blur(6px);
+  transition: background 0.3s ease, transform 0.2s ease;
+  font-size: 1.5rem;
+}
+.btn:hover {
+  background: rgba(255,255,255,0.35);
+  transform: scale(1.1);
+}
+.btn:active {
+  transform: scale(0.95);
+}
+
+/* Indikator dots */
+.dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.dot.active {
+  background: #ffcc00;
+  transform: scale(1.2);
+}
